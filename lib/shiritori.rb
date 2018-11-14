@@ -12,9 +12,18 @@ class Shiritori
     end
   end
 
-  def self.valid_word?(japanese_nouns_as_katakana, used_words, word)
-    japanese_nouns_as_katakana.include?(word) &&
+  def self.valid_word?(valid_words, used_words, word)
+    valid_words.include?(word) &&
     !used_words.include?(word) &&
+    (used_words.empty? || used_words.last&.[](-1) == word[0]) &&
+     word[-1] != "ん"
+  end
+
+  def self.valid_word?(valid_words, used_words, word)
+    in_dictionnary?(word) &&
+    unused?(word) &&
+    chaining?(word) &&
+    !terminal?(word)
     (used_words.empty? || used_words.last&.[](-1) == word[0]) &&
      word[-1] != "ん"
   end
